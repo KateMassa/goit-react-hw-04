@@ -1,0 +1,32 @@
+.searchHeader {
+  background-color: rgb(27, 189, 213);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 8px;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.searchInput {
+  display: block;
+  border-radius: 8px;
+  width: 400px;
+  height: 24px;
+  padding-left: 10px;
+}
+
+.searchButton {
+  background-color: transparent;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+}

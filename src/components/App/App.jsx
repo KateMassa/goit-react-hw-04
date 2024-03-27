@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import getImages from "../imagesAPI";
+import getImages from "../../imagesAPI";
 import SearchBar from "./SearchBar/SearchBar";
 import ImageGallery from "./ImageGallery/ImageGallery";
 import ImageModal from "./ImageModal/ImageModal";
 import LoadMoreBtn from "./LoadMoreBtn/LoadMoreBtn";
 import Loader from "./Loader/Loader";
 import ErrorMessage from "./ErrorMessage/ErrorMessage";
+import toast, { Toaster } from "react-hot-toast";
 
 const App = () => {
   const [images, setImages] = useState([]);
@@ -16,31 +17,37 @@ const App = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [hasMore, setHasMore] = useState(true);
 
-  const handleSubmit = (searchQuery) => {
-    setQuery(searchQuery);
-    setPage(1);
-    setLoading(true);
+  async function searchImages(inputValue) {
+    setQuery(`${Date.now()}/${inputValue}`);
     setImages([]);
-    setError(null);
-  };
+    setPage(1);
+  }
 
   useEffect(() => {
-    if (!query) return;
+    if (query === "") {
+      return;
+    }
 
-    setLoading(true);
-
-    getImages(query, page)
-      .then((results) => {
-        setImages((prevImages) => [...prevImages, ...results]);
-        setHasMore(results.length > 0);
-        setError(null);
-      })
-      .catch((error) => {
-        setError(error);
-      })
-      .finally(() => {
+    async function fetchImages() {
+      try {
+        setLoading(true);
+        setError(false);
+        const response = await getImages(query, page);
+        const data = response.data; // Accessing data directly
+        if (!data.results.length) {
+          toast.error("No images found. Try another request", {
+            position: "top-right",
+          });
+        }
+        setImages((prevImages) => [...prevImages, ...data.results]);
+        setHasMore(data.total_pages);
+      } catch (error) {
+        setError(true);
+      } finally {
         setLoading(false);
-      });
+      }
+    }
+    fetchImages();
   }, [query, page]);
 
   const loadMoreImages = async () => {
@@ -68,7 +75,8 @@ const App = () => {
 
   return (
     <div>
-      <SearchBar onSearch={handleSubmit} />
+      <Toaster />
+      <SearchBar onSearch={searchImages} />
       {loading ? (
         <Loader />
       ) : error ? (
