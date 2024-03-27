@@ -6,13 +6,12 @@ const getImages = async (query, page) => {
   const response = await axios.get("https://api.unsplash.com/search/photos", {
     params: {
       client_id: API_KEY,
-      query: query.split("/")[1],
+      query,
       page,
       per_page: 12,
-      orientation: "landscape",
     },
   });
-  return response;
+  return response.data.results;
 };
 
 export default getImages;

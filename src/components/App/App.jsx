@@ -1,6 +1,5 @@
-// App.jsx
 import { useState, useEffect } from "react";
-import getImages from "../App/ImagesApi";
+import getImages from "../imagesAPI";
 import SearchBar from "./SearchBar/SearchBar";
 import ImageGallery from "./ImageGallery/ImageGallery";
 import ImageModal from "./ImageModal/ImageModal";
@@ -31,12 +30,13 @@ const App = () => {
     setLoading(true);
 
     getImages(query, page)
-      .then((data) => {
-        setImages((prevImages) => [...prevImages, ...data]);
-        setHasMore(data.length > 0);
+      .then((results) => {
+        setImages((prevImages) => [...prevImages, ...results]);
+        setHasMore(results.length > 0);
+        setError(null);
       })
       .catch((error) => {
-        setError(error.message);
+        setError(error);
       })
       .finally(() => {
         setLoading(false);
@@ -45,15 +45,16 @@ const App = () => {
 
   const loadMoreImages = async () => {
     try {
-      const response = await getImages(query, page + 1);
-      if (!response || response.length === 0) {
+      const results = await getImages(query, page + 1);
+      if (!results || results.length === 0) {
         setHasMore(false);
       } else {
-        setImages((prevImages) => [...prevImages, ...response]);
+        setImages((prevImages) => [...prevImages, ...results]);
         setPage(page + 1);
+        setError(null);
       }
     } catch (error) {
-      console.error("Error loading images:", error.message);
+      setError(error);
     }
   };
 
@@ -71,7 +72,7 @@ const App = () => {
       {loading ? (
         <Loader />
       ) : error ? (
-        <ErrorMessage message={error} />
+        <ErrorMessage message={error.message} />
       ) : (
         <>
           <ImageGallery images={images} openModal={openModal} />
