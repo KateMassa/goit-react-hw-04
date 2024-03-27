@@ -2,7 +2,6 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 
 const SearchBar = ({ onSearch }) => {
-  // Змінено назву пропса з onSubmit на onSearch
   const [query, setQuery] = useState("");
 
   const handleSubmit = (event) => {
@@ -11,7 +10,7 @@ const SearchBar = ({ onSearch }) => {
       toast.error("Please enter a search query!");
       return;
     }
-    onSearch(query); // Змінено виклик функції з onSubmit на onSearch
+    onSearch(query);
     setQuery("");
   };
 

@@ -17,17 +17,28 @@ const App = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [hasMore, setHasMore] = useState(true);
 
+  const handleSubmit = (searchQuery) => {
+    setQuery(searchQuery);
+    setPage(1);
+    setLoading(true);
+    setImages([]);
+    setError(null);
+  };
+
   useEffect(() => {
     if (!query) return;
+
     setLoading(true);
+
     getImages(query, page)
       .then((data) => {
         setImages((prevImages) => [...prevImages, ...data]);
         setHasMore(data.length > 0);
-        setLoading(false);
       })
       .catch((error) => {
         setError(error.message);
+      })
+      .finally(() => {
         setLoading(false);
       });
   }, [query, page]);
@@ -44,14 +55,6 @@ const App = () => {
     } catch (error) {
       console.error("Error loading images:", error.message);
     }
-  };
-
-  const handleSubmit = (searchQuery) => {
-    setQuery(searchQuery);
-    setPage(1);
-    setLoading(true);
-    setImages([]);
-    setError(null);
   };
 
   const openModal = (image) => {
