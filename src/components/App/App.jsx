@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import getImages from "../../imagesAPI";
-import SearchBar from "./SearchBar/SearchBar";
-import ImageGallery from "./ImageGallery/ImageGallery";
-import ImageModal from "./ImageModal/ImageModal";
-import LoadMoreBtn from "./LoadMoreBtn/LoadMoreBtn";
-import Loader from "./Loader/Loader";
-import ErrorMessage from "./ErrorMessage/ErrorMessage";
+import SearchBar from "../SearchBar/SearchBar";
+import ImageGallery from "../ImageGallery/ImageGallery";
+import ImageModal from "../ImageModal/ImageModal";
+import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
+import Loader from "../Loader/Loader";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import toast, { Toaster } from "react-hot-toast";
 import css from "./App.module.css";
 
