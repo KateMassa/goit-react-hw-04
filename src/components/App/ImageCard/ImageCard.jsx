@@ -12,7 +12,6 @@ const ImageCard = ({ image, onOpen }) => (
       }
       src={image.urls.small}
       alt={image.alt_description}
-      height={350}
     />
   </div>
 );

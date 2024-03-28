@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import getImages from "../../imagesAPI";
-import SearchBar from "../App/SearchBar/SearchBar";
+import SearchBar from "./SearchBar/SearchBar";
 import ImageGallery from "./ImageGallery/ImageGallery";
 import ImageModal from "./ImageModal/ImageModal";
 import LoadMoreBtn from "./LoadMoreBtn/LoadMoreBtn";
@@ -36,15 +36,12 @@ const App = () => {
         const response = await getImages(query, page);
         const data = response.data;
         if (!data.results.length) {
-          toast.error(
-            "Oops, something went wrong. Give it another shot by refreshing the page.",
-            {
-              position: "top-right",
-            }
-          );
+          toast.error("Oops, something went wrong. Give it another shot.", {
+            position: "top-right",
+          });
         }
         setImages((prevImages) => [...prevImages, ...data.results]);
-        setHasMore(page <= data.total_pages);
+        setHasMore(data.total_pages);
       } catch (error) {
         setError(true);
       } finally {
@@ -54,22 +51,26 @@ const App = () => {
     fetchImages();
   }, [query, page]);
 
-  const loadMoreImages = async () => {
-    try {
-      const results = await getImages(query, page + 1);
+  function handleLoadMore() {
+    setPage(page + 1);
+  }
 
-      if (!results || results.length === 0) {
-        setHasMore(false);
-      } else {
-        setImages((prevImages) => [...prevImages, ...results]);
-        setPage(page + 1);
-        setError(null);
-      }
-    } catch (error) {
-      console.error("Error loading more images:", error);
-      setError(error);
-    }
-  };
+  // const loadMoreImages = async () => {
+  //   try {
+  //     const results = await getImages(query, page + 1);
+
+  //     if (!results || results.length === 0) {
+  //       setHasMore(false);
+  //     } else {
+  //       setImages((prevImages) => [...prevImages, ...results]);
+  //       setPage(page + 1);
+  //       setError(null);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error loading more images:", error);
+  //     setError(error);
+  //   }
+  // };
 
   const openModal = (image) => {
     setSelectedImage(image);
@@ -99,7 +100,7 @@ const App = () => {
             />
           )}
           {images.length > 0 && !loading && hasMore > page && (
-            <LoadMoreBtn onLoadMore={loadMoreImages} />
+            <LoadMoreBtn onLoadMore={handleLoadMore} />
           )}
         </>
       )}
