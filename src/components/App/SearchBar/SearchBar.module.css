@@ -14,9 +14,10 @@
 .searchInput {
   display: block;
   border-radius: 8px;
-  width: 400px;
+  width: 200px;
   height: 24px;
   padding-left: 10px;
+  font-size: 10px;
 }
 
 .searchButton {
@@ -26,6 +27,7 @@
   justify-content: center;
   align-items: center;
   position: absolute;
+  font-size: 12px;
   top: 50%;
   right: 10px;
   transform: translateY(-50%);

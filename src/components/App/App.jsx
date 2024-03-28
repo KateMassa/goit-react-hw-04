@@ -7,6 +7,7 @@ import LoadMoreBtn from "./LoadMoreBtn/LoadMoreBtn";
 import Loader from "./Loader/Loader";
 import ErrorMessage from "./ErrorMessage/ErrorMessage";
 import toast, { Toaster } from "react-hot-toast";
+import css from "./App.module.css";
 
 const App = () => {
   const [images, setImages] = useState([]);
@@ -79,7 +80,7 @@ const App = () => {
   };
 
   return (
-    <div className={CSS.container}>
+    <div className={css.container}>
       <Toaster />
       <SearchBar onSearch={searchImages} />
       {loading ? (
