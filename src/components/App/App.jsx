@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import getImages from "../../imagesAPI";
-import SearchBar from "./SearchBar/SearchBar";
+import SearchBar from "../App/SearchBar/SearchBar";
 import ImageGallery from "./ImageGallery/ImageGallery";
 import ImageModal from "./ImageModal/ImageModal";
 import LoadMoreBtn from "./LoadMoreBtn/LoadMoreBtn";
