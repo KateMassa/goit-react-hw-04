@@ -11,6 +11,7 @@ const SearchBar = ({ onSearch }) => {
       toast.error("Please enter a search query!");
       return;
     }
+
     onSearch(query);
     setQuery("");
   };

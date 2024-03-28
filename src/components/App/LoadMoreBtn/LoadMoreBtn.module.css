@@ -1,0 +1,15 @@
+.loadMoreWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loadMoreButton {
+  width: 200px;
+  padding: 8px;
+  color: #fff;
+  background-color: inherit;
+  border: 1px solid #fff;
+  border-radius: 8px;
+  transition: background-color 250ms cubic-bezier(0.46, 0.07, 0.42, 1.1),
+    box-shadow 250ms cubic-bezier(0.46, 0.07, 0.42, 1.1);
+}

@@ -1,20 +1,20 @@
 // import css from "./ImageCard.module.css";
 
-const ImageCard = ({ image, openModal }) => {
-  const handleImageClick = () => {
-    openModal({
-      isModalOpen: true,
-      bigImg: image.url,
-      imgAltDescription: image.alt,
-      imgLikes: image.likes,
-    });
-  };
-
-  return (
-    <div>
-      <img src={image.url} alt={image.alt} onClick={handleImageClick} />
-    </div>
-  );
-};
+const ImageCard = ({ image, onOpen }) => (
+  <div>
+    <img
+      onClick={() =>
+        onOpen({
+          isModalOpen: true,
+          bigImage: image.urls.regular,
+          imageDescription: image.alt_description,
+        })
+      }
+      src={image.urls.small}
+      alt={image.alt_description}
+      height={350}
+    />
+  </div>
+);
 
 export default ImageCard;

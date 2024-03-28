@@ -13,9 +13,9 @@ const App = () => {
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [hasMore, setHasMore] = useState(true);
+  const [error, setError] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(false);
+  const [hasMore, setHasMore] = useState(0);
 
   async function searchImages(inputValue) {
     setQuery(`${Date.now()}/${inputValue}`);
@@ -33,14 +33,17 @@ const App = () => {
         setLoading(true);
         setError(false);
         const response = await getImages(query, page);
-        const data = response.data; // Accessing data directly
+        const data = response.data;
         if (!data.results.length) {
-          toast.error("No images found. Try another request", {
-            position: "top-right",
-          });
+          toast.error(
+            "Oops, something went wrong. Give it another shot by refreshing the page.",
+            {
+              position: "top-right",
+            }
+          );
         }
         setImages((prevImages) => [...prevImages, ...data.results]);
-        setHasMore(data.total_pages);
+        setHasMore(page <= data.total_pages);
       } catch (error) {
         setError(true);
       } finally {
@@ -53,6 +56,7 @@ const App = () => {
   const loadMoreImages = async () => {
     try {
       const results = await getImages(query, page + 1);
+
       if (!results || results.length === 0) {
         setHasMore(false);
       } else {
@@ -61,6 +65,7 @@ const App = () => {
         setError(null);
       }
     } catch (error) {
+      console.error("Error loading more images:", error);
       setError(error);
     }
   };
@@ -74,7 +79,7 @@ const App = () => {
   };
 
   return (
-    <div>
+    <div className={CSS.container}>
       <Toaster />
       <SearchBar onSearch={searchImages} />
       {loading ? (
@@ -85,9 +90,16 @@ const App = () => {
         <>
           <ImageGallery images={images} openModal={openModal} />
           {selectedImage && (
-            <ImageModal image={selectedImage} onClose={closeModal} />
+            <ImageModal
+              isOpen={selectedImage.isModalOpen}
+              bigImage={selectedImage.bigImage}
+              imageDescription={selectedImage.imageDescription}
+              onClose={closeModal}
+            />
           )}
-          {hasMore && <LoadMoreBtn onClick={loadMoreImages} />}
+          {images.length > 0 && !loading && hasMore > page && (
+            <LoadMoreBtn onLoadMore={loadMoreImages} />
+          )}
         </>
       )}
     </div>

@@ -1,13 +1,10 @@
 import Modal from "react-modal";
 import css from "./ImageModal.module.css";
 
-const ImageModal = ({
-  isOpen: { isModalOpen, bigImage, imageDescription },
-  closeModal,
-}) => (
+const ImageModal = ({ isOpen, bigImage, imageDescription, onClose }) => (
   <Modal
-    isOpen={isModalOpen}
-    onRequestClose={closeModal}
+    isOpen={isOpen}
+    onRequestClose={onClose}
     className={css.modalContent}
     overlayClassName={css.modalOverlay}
   >

@@ -1,6 +1,8 @@
+import css from "./ErrorMessage.module.css";
+
 const ErrorMessage = () => {
   return (
-    <div style={{ textAlign: "center", marginTop: "20px", color: "red" }}>
+    <div className={css.errorWrapper}>
       <p>
         Oops, something went wrong. Give it another shot by refreshing the page,
         please!

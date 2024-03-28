@@ -1,11 +1,11 @@
-const LoadMoreBtn = ({ onClick, hasMore }) => {
+import css from "./LoadMoreBtn.module.css";
+
+const LoadMoreBtn = ({ hasMore }) => {
   return (
-    <div style={{ textAlign: "center", marginTop: "20px" }}>
-      {hasMore && (
-        <button onClick={onClick} style={{ padding: "10px 20px" }}>
-          Load more
-        </button>
-      )}
+    <div className={css.loadMoreWrapper}>
+      <button onClick={hasMore} className={css.loadMoreButton} type="button">
+        Load more
+      </button>
     </div>
   );
 };
